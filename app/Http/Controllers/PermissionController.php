@@ -26,7 +26,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Permission/Create', ['permission' => new Permission()]);
     }
 
     /**
@@ -37,7 +37,15 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $user = Permission::create([
+            'name' => $request->name,
+        ]);
+
+        return redirect()->route('permissions.index');
     }
 
     /**
