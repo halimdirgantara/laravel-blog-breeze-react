@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Throwable;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
@@ -41,11 +42,14 @@ class PermissionController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        $user = Permission::create([
-            'name' => $request->name,
-        ]);
-
-        return redirect()->route('permissions.index');
+        try {
+            $user = Permission::create([
+                'name' => $request->name,
+            ]);
+        } catch (Throwable $th) {
+            return redirect()->route('permissions.index')->with('error', $th->getMessage());
+        }
+        return redirect()->route('permissions.index')->with('success', 'Permission '.$request->name.' Added!');
     }
 
     /**
@@ -67,7 +71,8 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $permission = Permission::findOrFail($id);
+        return Inertia::render('Permission/Edit', ['permission' => $permission]);
     }
 
     /**

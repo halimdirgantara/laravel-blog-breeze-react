@@ -17,7 +17,6 @@ export default function PermissionForm() {
 
     const submit = (e) => {
         e.preventDefault();
-
         post(route('permissions.store'));
     };
 
