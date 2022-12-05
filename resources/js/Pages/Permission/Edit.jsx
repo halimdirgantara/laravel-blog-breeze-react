@@ -4,9 +4,8 @@ import { Head, usePage, Link } from "@inertiajs/inertia-react";
 import PermissionForm from "./Partials/PermissionForm";
 import BackButton from "@/Components/BackButton";
 import toast, { Toaster } from 'react-hot-toast';
-import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 
-export default function Create({ auth, permissions }) {
+export default function Edit(props) {
     const { flash } = usePage().props
     console.log(flash.success)
     useEffect(() => {
@@ -17,6 +16,7 @@ export default function Create({ auth, permissions }) {
             toast.error(flash.error)
         }
     }, [])
+    const permissions = permissions
 
     return (
         <AuthenticatedLayout
@@ -41,9 +41,9 @@ export default function Create({ auth, permissions }) {
                     </Link>
                     <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                         <h2 className="font-semibold text-xl text-gray-800 leading-tight mb-5">
-                            Create Permission
+                            Edit Permission
                         </h2>
-                        <PermissionForm />
+                        <PermissionForm name={permissions.name}/>
                     </div>
                 </div>
             </div>

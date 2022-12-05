@@ -72,7 +72,14 @@ export default function Authenticated({ auth, header, children }) {
                                                     "permissions.index"
                                                 )}
                                             >
-                                                Permission
+                                                Permissions
+                                            </Dropdown.Link>
+                                            <Dropdown.Link
+                                                href={route(
+                                                    "roles.index"
+                                                )}
+                                            >
+                                                Roles
                                             </Dropdown.Link>
                                         </Dropdown.Content>
                                     </Dropdown>
