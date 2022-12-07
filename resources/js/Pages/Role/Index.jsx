@@ -1,12 +1,24 @@
-import React from "react";
+import React, {useEffect} from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Inertia } from "@inertiajs/inertia";
 import { InertiaLink } from "@inertiajs/inertia-react";
 import { Head, usePage, Link } from "@inertiajs/inertia-react";
 import Pagination from "@/Components/Pagination";
+import toast, { Toaster } from 'react-hot-toast';
 
-export default function Roles(props) {
+
+export default function Index(props) {
     const { roles } = usePage().props;
+    const {flash} = usePage().props
+    console.log(flash.success)
+    useEffect(() => {
+        if (flash.success !== null) {
+            toast.success(flash.success)
+        }
+        if (flash.error !== null) {
+            toast.error(flash.error)
+        }
+    }, [])
 
     function destroy(e) {
         if (confirm("Are you sure you want to delete this role?")) {
@@ -24,19 +36,22 @@ export default function Roles(props) {
                 </h2>
             }
         >
+            <div><Toaster /></div>
             <Head title="Roles" />
-
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <h1 className="mt-8 mb-8 text-3xl font-bold text-center">
+                            Role List
+                        </h1>
                         <div className="p-6 bg-white border-b border-gray-200">
                             <div className="flex items-center justify-between mb-6">
-                                <Link
-                                    className="px-6 py-2 text-white bg-green-500 rounded-md focus:outline-none"
+                                <InertiaLink
+                                    className="px-6 py-2 text-white bg-green-600 rounded-md focus:outline-none hover:bg-green-400"
                                     href={route("roles.create")}
                                 >
                                     Create Role
-                                </Link>
+                                </InertiaLink>
                             </div>
 
                             <div className="overflow-x-auto bg-white rounded shadow">

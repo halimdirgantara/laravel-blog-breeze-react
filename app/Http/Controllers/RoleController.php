@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Throwable;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -26,7 +27,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Role/Create', ['role' => new Role()]);
     }
 
     /**
@@ -37,7 +38,18 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        try {
+            $user = Role::create([
+                'name' => $request->name,
+            ]);
+        } catch (Throwable $th) {
+            return redirect()->route('roles.index')->with('error', $th->getMessage());
+        }
+        return redirect()->route('roles.index')->with('success', 'Role '.$request->name.' Added!');
     }
 
     /**
